@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% from '_m.html' import picker with context %}{% block title %}Action plan{% endblock %}
+{% block content %}
+<h1>📋 Smart policy recommender</h1><p class="lead">Rule-based recommendations comparing a district with national averages.</p>
+<form class="card filter" method="get">{{ picker('district', selected) }}<div style="flex:0"><button type="button" class="btn ghost noprint" onclick="window.print()" style="white-space:nowrap">🖨️ Print / PDF</button></div></form>
+<div class="grid g12">
+ <div class="card"><h3>{{ selected }} baseline</h3><span class="chip {{ 'red' if d.Rank <= 10 else '' }}">Need rank #{{ d.Rank }} · index {{ d.Priority }}</span>
+  <table style="margin-top:10px">{% for lab, c, f in (('Poverty rate','Poverty_Rate_Pct',1),('Digital finance','Digital_App_Pct',0),('Bank loans','Bank_Loan_Pct',0),('Saving groups','Saving_Group_Pct',0)) %}
+  <tr><td>{{ lab }}</td><td><strong>{{ d[c]|num(f) }}{{ '%' if f }}</strong></td><td class="mut small">avg {{ nat[c]|num(f) }}</td></tr>{% endfor %}</table></div>
+ <div><h2>Recommended interventions</h2>{% for r in recs %}<div class="card rec {{ r.level }}"><h3>{{ r.icon }} {{ r.title }}</h3><p>{{ r.desc }}</p></div>{% endfor %}</div>
+</div>
+{% endblock %}

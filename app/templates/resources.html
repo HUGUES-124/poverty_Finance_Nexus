@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% block title %}Resources{% endblock %}
+{% block content %}
+<h1>💡 Resources &amp; getting help</h1><p class="lead">Practical pathways into formal finance and support. Check details with your local sector office, as programmes and fees change.</p>
+<div class="grid g3 tools">
+{% for e, t, x in (('🤝','Ibimina / VSLA saving groups','Save small amounts together, borrow from the group fund and build a safety net. Ask your village leader or a local cooperative about joining or starting one.'),
+ ('📱','Mobile money','Send, receive and save money without a bank branch, using a basic phone via USSD. Choose a registered agent and never share your PIN.'),
+ ('🏦','Umurenge SACCOs','Community-based savings and credit cooperatives present in every sector — a first step toward bank accounts and small loans.'),
+ ('🌾','VUP &amp; social protection','The Vision 2020 Umurenge Programme offers public works, direct support and financial services to eligible households. Ask your sector or cell office.'),
+ ('🎓','Financial literacy','Learn budgeting, saving, borrowing safely and spotting scams. Look for free sessions from banks, MFIs, NGOs and youth ambassadors.'),
+ ('🛡️','Protect yourself','Compare fees and interest rates before borrowing, keep receipts, and be wary of anyone asking for upfront fees or your PIN.')) %}
+<div class="card"><div class="e">{{ e }}</div><h3>{{ t|safe }}</h3><p class="mut small">{{ x|safe }}</p></div>{% endfor %}</div>
+<div class="card" style="margin-top:18px"><h3>Can't reach a service?</h3><p class="mut">Tell us — your <a href="{{ url_for('report') }}">report</a> helps show planners where agents, branches and networks are missing.</p></div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% block title %}Data &amp; method{% endblock %}
+{% block content %}
+<h1>ℹ️ Data &amp; method</h1><p class="lead">What the numbers mean and how the scores are built.</p>
+<div class="grid g2">
+<div class="card"><h3>Data</h3><p class="small">District-level poverty rate and financial-service reach for {{ districts_all|length }} districts. Source: {{ site.data_source }}.</p>
+ <p class="small"><strong>Read with care:</strong> columns named <code>*_Pct</code> in the source file hold <em>counts</em> of users/members (tens or hundreds of thousands), not percentages, and several districts show 0 digital users, which may be missing data. The app labels them as counts and flags this. Please confirm with the data owner.</p>
+ <a class="btn ghost" href="{{ url_for('download') }}">⬇ Download CSV</a> <a class="btn ghost" href="{{ url_for('api_districts') }}">JSON API</a></div>
+<div class="card"><h3>Exclusion Priority Index (0–100)</h3><p class="small">50% poverty rate + 50% lack of reach (total of digital, bank and saving-group users), each min-max scaled across districts. Higher = greater need. Counts are not adjusted for population, so large districts look better reached.</p>
+ <h3>Simulator &amp; risk calculator</h3><p class="small">Both use simple, transparent rules of thumb for planning discussions. They are not predictions or official targeting tools.</p></div>
+</div>
+{% endblock %}

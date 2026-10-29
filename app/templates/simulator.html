@@ -1,0 +1,21 @@
+{% extends 'base.html' %}{% from '_m.html' import picker with context %}{% block title %}Policy simulator{% endblock %}
+{% block content %}
+<h1>⚙️ Policy simulator</h1><p class="lead">Move the sliders to see an <em>illustrative</em> projection of poverty if inclusion rises. Coefficients are planning assumptions, not statistical estimates.</p>
+<div class="grid g2">
+ <div><form class="card filter" method="get">{{ picker('district', selected) }}</form>
+  <div class="card"><label>Increase saving-group participation: <strong id="sv">0</strong>%</label><input type="range" id="s" min="0" max="100" step="5" value="0">
+  <label>Increase bank-loan access: <strong id="bv">0</strong>%</label><input type="range" id="b" min="0" max="100" step="5" value="0">
+  <p class="mut small" style="margin-top:16px">Model: reduction = savings% ÷ 10 × {{ k.gs }} + bank% ÷ 10 × {{ k.gb }} points, floored at 0%.</p></div></div>
+ <div><div class="card" style="text-align:center;background:#e4f3f1"><h3>Projected poverty rate in {{ selected }}</h3><div class="score" id="np" style="color:var(--pri2)">–</div>
+  <p style="color:var(--grn);font-weight:700;margin:0" id="rd"></p></div>
+  <div class="card flat" style="margin-top:18px"><div id="simChart" style="height:320px"></div></div></div>
+</div>
+<script>
+var CUR={{ current }},GS={{ k.gs }},GB={{ k.gb }};
+function upd(){var s=+document.getElementById('s').value,b=+document.getElementById('b').value,red=s/10*GS+b/10*GB,np=Math.max(0,CUR-red);
+ sv.textContent=s;bv.textContent=b;document.getElementById('np').textContent=np.toFixed(1)+'%';rd.textContent='▼ '+(CUR-np).toFixed(1)+' percentage points';
+ Plotly.react('simChart',[{type:'bar',x:['Current','Projected'],y:[CUR,np],marker:{color:['#c0392b','#0b7a75']},text:[CUR.toFixed(1)+'%',np.toFixed(1)+'%'],textposition:'outside'}],
+ {margin:{t:30,b:30,l:40,r:10},yaxis:{range:[0,Math.max(CUR*1.2,10)],title:'Poverty rate (%)'},paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)'},{responsive:true,displayModeBar:false});}
+document.getElementById('s').oninput=upd;document.getElementById('b').oninput=upd;window.addEventListener('load',upd);
+</script>
+{% endblock %}

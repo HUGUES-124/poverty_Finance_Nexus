@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ site.name }}{% endblock %} · {{ site.name if request.endpoint != 'index' else 'Rwanda' }}</title>
+<meta name="description" content="{{ site.tagline }}"><meta name="theme-color" content="#0c3b3d">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇷🇼</text></svg>">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% set nav = [('Overview',[('index','🏠','Dashboard'),('map_view','🗺️','Map & correlation'),('profile','📍','District profile'),('compare','⚖️','Compare districts')]),
+ ('Tools',[('simulator','⚙️','Policy simulator'),('calculator','🧮','Risk calculator'),('action_plan','📋','Action plan')]),
+ ('Community',[('report','📢','Report exclusion'),('resources','💡','Resources & help')]),
+ ('About',[('about','ℹ️','Data & method'),('contact','✉️','Contact us')])] %}
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="{{ url_for('index') }}"><span class="logo">🇷🇼</span><span>{{ site.name }}</span></a>
+  {% for h, items in nav %}<div class="nav-h">{{ h }}</div>
+    {% for ep, ic, lb in items %}<a class="nl {{ 'on' if request.endpoint == ep }}" href="{{ url_for(ep) }}"><span>{{ ic }}</span>{{ lb }}</a>{% endfor %}
+  {% endfor %}
+</aside>
+<div class="main">
+  <div class="topbar"><button id="menuBtn" aria-label="Open menu">☰</button><strong>{{ site.name }}</strong></div>
+  <main class="content">
+    {% with msgs = get_flashed_messages(with_categories=true) %}{% for c, m in msgs %}<div class="flash {{ c }}">{{ m }}</div>{% endfor %}{% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">
+    <div class="fg">
+      <div><h4>{{ site.name }}</h4><p>{{ site.tagline }}.</p>
+        <div class="soc">{% for n, u in site.social.items() if u %}<a href="{{ u }}" target="_blank" rel="noopener">{{ n }}</a>{% endfor %}</div></div>
+      <div><h4>Explore</h4><a href="{{ url_for('index') }}">Dashboard</a><a href="{{ url_for('map_view') }}">Map</a><a href="{{ url_for('action_plan') }}">Action plan</a><a href="{{ url_for('resources') }}">Resources</a></div>
+      <div><h4>Project</h4><a href="{{ url_for('about') }}">Data &amp; method</a><a href="{{ url_for('download') }}">Download data (CSV)</a><a href="{{ url_for('api_districts') }}">Open data API</a><a href="{{ url_for('report') }}">Report an issue</a></div>
+      <div><h4>Contact</h4><a href="mailto:hmugisha57@gmail.con">✉️ hmugisha57@gmail.com</a><a href="tel:{{ site.phone|replace(' ','') }}">📞 +250 798 220 368</a><span>📍 Kigali, Rwanda</span><br><span>🕒 {{ site.hours }}</span></div>
+    </div>
+    <div class="copy"><span>© {{ now.year if now else 2026 }} {{ site.org }}. All rights reserved.</span><span>Data: {{ site.data_source }} · Built for financial inclusion &amp; poverty reduction</span></div>
+  </footer>
+</div></div>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<script>window.CHARTS = {{ (charts or {}) | tojson }};</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body></html>

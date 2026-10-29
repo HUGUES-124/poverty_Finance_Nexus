@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block title %}Contact{% endblock %}
+{% block content %}
+<h1>✉️ Contact us</h1><p class="lead">Questions, partnerships or data corrections — we'd love to hear from you.</p>
+<div class="grid g12">
+ <div class="card"><h3>Reach us</h3><p>✉️ <a href="mailto:hmugisha57@gmail.com">hmugisha57@gmail.com</a></p><p>📞 +250 798 220 368</p><p>📍 Kigali, Rwanda</p><p>🕒 {{ site.hours }}</p>
+  <div>{% for n, u in site.social.items() if u %}<a class="chip" href="{{ u }}" target="_blank" rel="noopener">{{ n }}</a> {% endfor %}</div></div>
+ <form class="card" method="post"><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <div class="grid g2"><div><label>Name</label><input name="name" required maxlength="100"></div><div><label>Email</label><input type="email" name="email" required maxlength="150"></div></div>
+  <label>Subject</label><input name="subject" maxlength="150"><label>Message</label><textarea name="message" rows="5" required maxlength="2000"></textarea>
+  <button class="btn full">Send message</button></form>
+</div>
+{% endblock %}

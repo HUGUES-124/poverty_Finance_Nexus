@@ -1,0 +1,17 @@
+{% extends 'base.html' %}{% block title %}Report exclusion{% endblock %}
+{% block content %}
+<h1>📢 Community feedback &amp; exclusion reporter</h1><p class="lead">Tell us where financial services are out of reach. Reports bridge the gap between survey statistics and real-time ground truth. <strong>Please don't include names or phone numbers.</strong></p>
+<div class="grid g2">
+ <form class="card" method="post"><h3>Submit a report</h3><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <label>District</label><select name="district" required><option value="">— select —</option>{% for x in districts_all|sort %}<option>{{ x }}</option>{% endfor %}</select>
+  <label>Issue type</label><select name="issue_type" required><option value="">— select —</option>
+   {% for t in ('No mobile money agent nearby','Bank branch too far','Poor network connectivity','Denied formal loan/credit','High transaction fees','Other') %}<option>{{ t }}</option>{% endfor %}</select>
+  <label>Details (optional)</label><textarea name="description" rows="4" maxlength="1000" placeholder="Describe what you observed…"></textarea>
+  <button class="btn full">Submit report</button></form>
+ <div class="card"><h3>Live field reports <span class="chip">{{ total }} total</span></h3>
+  {% if charts.issues %}<div id="issues"></div>{% endif %}
+  <div class="feed">{% for r in reports %}<div class="it"><div style="display:flex;justify-content:space-between"><strong>📍 {{ r.district }}</strong><span class="mut small">{{ r.report_date[:16] }}</span></div>
+  <div style="color:var(--red);font-weight:600">{{ r.issue_type }}</div><div class="small">{{ r.description or 'No additional details.' }}</div></div>
+  {% else %}<p class="mut">No reports yet — be the first.</p>{% endfor %}</div></div>
+</div>
+{% endblock %}

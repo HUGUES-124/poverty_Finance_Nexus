@@ -1,0 +1,15 @@
+{% extends 'base.html' %}{% from '_m.html' import picker with context %}{% block title %}District profile{% endblock %}
+{% block content %}
+<h1>📍 District profile</h1><p class="lead">A snapshot of one district against the national picture.</p>
+<form class="card filter" method="get">{{ picker('district', selected) }}</form>
+<div class="grid g12">
+ <div class="card"><span class="chip {{ 'red' if d.Poverty_Rate_Pct > avg else '' }}">Rank #{{ d.Rank }} of {{ districts_all|length }} for need</span>
+  <div class="score" style="color:{{ 'var(--red)' if d.Poverty_Rate_Pct > avg else 'var(--pri)' }}">{{ d.Poverty_Rate_Pct|num(1) }}%</div>
+  <p class="mut">poverty rate · {{ (d.Poverty_Rate_Pct - avg)|abs|num(1) }} pts {{ 'above' if d.Poverty_Rate_Pct > avg else 'below' }} the district average</p>
+  <p class="small"><strong>Priority index:</strong> {{ d.Priority }}/100</p><hr style="border:0;border-top:1px solid var(--line)">
+  {% for lab, ico, c in (('Digital finance','📱','Digital_App_Pct'),('Saving groups','🤝','Saving_Group_Pct'),('Bank loans','🏦','Bank_Loan_Pct')) %}
+  <p style="margin:.7rem 0 .2rem">{{ ico }} {{ lab }}: <strong>{{ d[c]|num }}</strong> <span class="mut small">· higher than {{ pct[lab] }}% of districts</span></p><div class="bar"><i style="width:{{ pct[lab] }}%"></i></div>{% endfor %}
+  <p style="margin-top:18px"><a class="btn ghost" href="{{ url_for('action_plan', district=selected) }}">View action plan →</a></p></div>
+ <div class="card flat"><div id="bar"></div></div>
+</div>
+{% endblock %}

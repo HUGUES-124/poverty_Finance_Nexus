@@ -1,0 +1,6 @@
+{% macro picker(name, selected, label="District", auto=true) %}
+<div><label for="{{ name }}">{{ label }}</label><select name="{{ name }}" id="{{ name }}" {{ 'data-auto' if auto }}>
+{% for x in districts_all|sort %}<option value="{{ x }}" {{ 'selected' if x == selected }}>{{ x }}</option>{% endfor %}</select></div>
+{% endmacro %}
+
+{% macro kpi(cls, ico, lab, val, sub="") %}<div class="card kpi {{ cls }}"><span class="ico">{{ ico }}</span><div class="lab">{{ lab }}</div><div class="val">{{ val }}</div><div class="mut small">{{ sub }}</div></div>{% endmacro %}

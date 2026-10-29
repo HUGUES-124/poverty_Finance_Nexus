@@ -1,0 +1,21 @@
+{% extends 'base.html' %}{% block title %}Risk calculator{% endblock %}
+{% block content %}
+<h1>🧮 Household poverty-risk calculator</h1><p class="lead">A quick field tool: combines the district poverty baseline with a household's income source and financial access. It supports — never replaces — official targeting such as Ubudehe.</p>
+{% macro yn(n, v) %}<select name="{{ n }}"><option value="no">No</option><option value="yes" {{ 'selected' if v == 'yes' }}>Yes</option></select>{% endmacro %}
+<div class="grid g2">
+ <form class="card" method="post"><h3>Household assessment</h3>
+  <label>1. District</label><select name="district" required>{% for x in districts_all|sort %}<option {{ 'selected' if form.get('district') == x }}>{{ x }}</option>{% endfor %}</select>
+  <label>2. Primary income source</label><select name="income_source">{% for v, t in (('agriculture','Subsistence agriculture'),('informal_trade','Informal trade / casual labour'),('formal_salary','Formal salary / registered business')) %}<option value="{{ v }}" {{ 'selected' if form.get('income_source') == v }}>{{ t }}</option>{% endfor %}</select>
+  <label>3. Formal bank account in the household?</label>{{ yn('has_bank', form.get('has_bank')) }}
+  <label>4. Uses mobile money?</label>{{ yn('has_momo', form.get('has_momo')) }}
+  <label>5. Member of a saving group (Ibimina / VSLA)?</label>{{ yn('has_savings_group', form.get('has_savings_group')) }}
+  <button class="btn full">Calculate risk score</button></form>
+ <div class="card" style="text-align:center;display:flex;flex-direction:column;justify-content:center">
+ {% if result %}<h3>Result for {{ result.district }}</h3>
+  <div style="border:3px solid {{ result.color }};border-radius:16px;padding:24px;margin:10px 0"><div class="mut small" style="text-transform:uppercase;letter-spacing:.08em">Vulnerability score</div>
+  <div class="score" style="color:{{ result.color }}">{{ result.score }}%</div><h2 style="color:{{ result.color }};margin:0">{{ result.category }}</h2></div>
+  <p style="text-align:left">{% if result.score >= 45 %}⚠️ <strong>Recommended:</strong> enrol in social protection (e.g. VUP) and consider agricultural micro-insurance.{% elif result.score >= 25 %}💡 <strong>Recommended:</strong> financial-literacy outreach and a path from informal groups to formal savings.{% else %}✅ <strong>Recommended:</strong> strong resilience — a candidate for SME or agricultural expansion credit.{% endif %}</p>
+  <button class="btn ghost noprint" onclick="window.print()">🖨️ Print / save as PDF</button>
+ {% else %}<h3 class="mut">Fill in the form to see a score.</h3><p class="mut">Protective factors (bank, mobile money, saving group, salaried work) lower risk; farming and casual work raise it.</p>{% endif %}</div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}{% from '_m.html' import kpi %}{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="hero"><h1>Finance &amp; Poverty Nexus</h1><p>How access to digital finance, bank credit and saving groups relates to poverty across Rwanda's {{ stats.n }} districts — and where action is needed most.</p></div>
+<div class="grid g4" style="margin-bottom:18px">
+ {{ kpi('r','📉','Avg. poverty rate', stats.avg_pov|num(1) ~ '%', 'District average') }}
+ {{ kpi('t','📱','Digital finance users', stats.Digital_App_Pct|num, 'across all districts') }}
+ {{ kpi('a','🏦','Bank loan users', stats.Bank_Loan_Pct|num, 'across all districts') }}
+ {{ kpi('b','🤝','Saving group members', stats.Saving_Group_Pct|num, 'across all districts') }}
+</div>
+<div class="grid g3" style="margin-bottom:18px">
+ <div class="card"><span class="chip red">Highest poverty</span><h3 style="margin-top:8px">{{ hi.District }} · {{ hi.Poverty_Rate_Pct|num(1) }}%</h3><p class="mut small">Lowest is {{ lo.District }} at {{ lo.Poverty_Rate_Pct|num(1) }}%.</p></div>
+ <div class="card"><span class="chip">Correlation</span><h3 style="margin-top:8px">r = {{ corr|num(2) }}</h3><p class="mut small">Between total financial-service reach and poverty rate. {{ 'Negative: more reach tends to go with lower poverty.' if corr < 0 else 'Positive: reach is not lower where poverty is higher — see Data & method.' }}</p></div>
+ <!-- <div class="card"><span class="chip amb">Data check</span><h3 style="margin-top:8px">{{ zero }} districts with 0 digital users</h3><p class="mut small">Possibly missing data rather than true zeros — treat with care.</p></div> -->
+</div>
+<div class="grid g2" style="margin-bottom:18px"><div class="card flat"><div id="c1"></div></div><div class="card flat"><div id="c3"></div></div></div>
+<div class="card flat" style="margin-bottom:22px"><div id="c2"></div></div>
+<h2>Take action</h2>
+<div class="grid g4 tools">
+ <a class="card" href="{{ url_for('action_plan') }}"><div class="e">📋</div><h3>Action plan</h3><p class="mut small">District-specific policy recommendations.</p></a>
+ <a class="card" href="{{ url_for('simulator') }}"><div class="e">⚙️</div><h3>Policy simulator</h3><p class="mut small">Test the effect of inclusion levers.</p></a>
+ <a class="card" href="{{ url_for('calculator') }}"><div class="e">🧮</div><h3>Risk calculator</h3><p class="mut small">Household vulnerability score for field agents.</p></a>
+ <a class="card" href="{{ url_for('report') }}"><div class="e">📢</div><h3>Report exclusion</h3><p class="mut small">Share ground-truth from your community.</p></a>
+</div>
+{% endblock %}

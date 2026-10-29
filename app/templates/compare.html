@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% from '_m.html' import picker with context %}{% block title %}Compare districts{% endblock %}
+{% block content %}
+<h1>⚖️ Compare districts</h1><p class="lead">Put two districts side by side.</p>
+<form class="card filter" method="get">{{ picker('a', a, 'District A') }}{{ picker('b', b, 'District B') }}</form>
+<div class="grid g2"><div class="card"><table>
+<tr><th>Metric</th><th>{{ a }}</th><th>{{ b }}</th></tr>
+{% for lab, c, f in (('Poverty rate','Poverty_Rate_Pct',1),('Priority index','Priority',1),('Need rank','Rank',0),('Digital finance','Digital_App_Pct',0),('Bank loans','Bank_Loan_Pct',0),('Saving groups','Saving_Group_Pct',0)) %}
+<tr><td>{{ lab }}</td><td><strong>{{ da[c]|num(f) }}</strong></td><td><strong>{{ db[c]|num(f) }}</strong></td></tr>{% endfor %}</table></div>
+<div class="card flat"><div id="cmp"></div></div></div>
+{% endblock %}
