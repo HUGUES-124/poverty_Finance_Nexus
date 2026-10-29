@@ -19,6 +19,7 @@ This dashboard is a multi-page analytical web application designed for policymak
 * Community Feedback (Live DB): A built-in reporting portal for field agents to log localized financial exclusion issues (e.g., "No Mobile Money Agent Nearby"), stored securely in a SQLite database.
 
 **Technology Stack**
+
 Backend: Python, Flask
 
 Data Processing: Pandas, NumPy
