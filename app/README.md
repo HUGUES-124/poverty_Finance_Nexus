@@ -31,3 +31,4 @@ Database: SQLite (sqlite3)
 Frontend: HTML5, CSS3, JavaScript (Jinja2 Templating)
 
 Dataset: Built using microdata encompassing Rwanda's 30 districts (FinScope / EICV7).
+
