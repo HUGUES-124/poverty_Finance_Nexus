@@ -1,25 +1,32 @@
-# Finance & Poverty Nexus — Rwanda
+**Finance & Poverty Nexus – Rwanda**
+**Financial inclusion intelligence for poverty reduction in Rwanda.**
 
-Flask + Plotly dashboard linking financial inclusion to poverty across Rwanda's 30 districts.
+This dashboard is a multi-page analytical web application designed for policymakers, NGOs, and field workers. It tracks financial inclusion metrics—specifically Digital Finance, Bank Loans, and Saving Groups (Ibimina)—and analyzes their impact on poverty reduction across Rwanda's 30 districts.
 
-## Run locally
-```bash
-python -m venv venv && source venv/bin/activate   # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-python app.py                                      # http://localhost:5000
-```
+ **Core Features**
+ * National Dashboard: High-level Key Performance Indicators (KPIs) and statistical correlations between financial access and poverty rates.
 
-## Add your contact details
-Edit `config.py` (or set the environment variables in `.env.example`). They update the footer, Contact page and copyright line.
+* Interactive Mapping : Geographic visualization of financial service reach using geoBoundaries spatial data.
 
-## Deploy
-- **Render / Railway / Heroku:** connect the repo; start command is in `Procfile`. Set `SECRET_KEY`, `ORG_NAME`, contact vars, and attach a persistent disk with `DATA_DIR` pointing to it (otherwise saved reports reset on redeploy).
-- **Docker:** `docker build -t nexus . && docker run -p 8000:8000 -v nexus-data:/data -e SECRET_KEY=... nexus`
-- Health check: `/health`
+* District Profiler & Comparison: Deep-dive analytics comparing individual district performance against national averages.
 
-## Pages
-Dashboard · Map & correlation · District profile · Compare · Policy simulator · Risk calculator · Action plan · Report exclusion · Resources · Data & method · Contact · `/api/districts` · `/download/data.csv`
+* Policy Simulator: An interactive forecasting tool allowing policymakers to adjust inclusion levers (e.g., increasing bank access by 10%) to project potential poverty reduction.
 
-## Notes
-- District boundaries download once on first map visit and are cached in `static/data/` (or run `python scripts/fetch_geojson.py`). If unavailable, the map falls back to bubbles.
-- Reports and contact messages are stored in SQLite (`DATA_DIR/reports.db`). There is no admin login yet — add one before exposing message contents publicly.
+* Household Risk Calculator: A practical field tool that evaluates a household's vulnerability to poverty shocks based on their specific income source and financial footprint.
+
+* Smart Action Plan: An automated, rule-based engine that generates customized, printable policy interventions for any selected district.
+
+* Community Feedback (Live DB): A built-in reporting portal for field agents to log localized financial exclusion issues (e.g., "No Mobile Money Agent Nearby"), stored securely in a SQLite database.
+
+**Technology Stack**
+Backend: Python, Flask
+
+Data Processing: Pandas, NumPy
+
+Visualization: Plotly (plotly.express, plotly.graph_objects)
+
+Database: SQLite (sqlite3)
+
+Frontend: HTML5, CSS3, JavaScript (Jinja2 Templating)
+
+Dataset: Built using microdata encompassing Rwanda's 30 districts (FinScope / EICV7).
