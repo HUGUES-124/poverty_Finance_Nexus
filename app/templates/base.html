@@ -14,7 +14,7 @@
  ('About',[('about','ℹ️','Data & method'),('contact','✉️','Contact us')])] %}
 <div class="shell">
 <aside class="sidebar" id="sidebar">
-  <a class="brand" href="{{ url_for('index') }}"><span class="logo">🇷🇼</span><span>{{ site.name }}</span></a>
+  <a class="brand" href="{{ url_for('index') }}"><span>{{ site.name }}</span></a>
   {% for h, items in nav %}<div class="nav-h">{{ h }}</div>
     {% for ep, ic, lb in items %}<a class="nl {{ 'on' if request.endpoint == ep }}" href="{{ url_for(ep) }}"><span>{{ ic }}</span>{{ lb }}</a>{% endfor %}
   {% endfor %}
